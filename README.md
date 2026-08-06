@@ -1,2 +1,203 @@
-# planning_digihulp_maasland
-Digipunten Regio Maasland -- Een digihelper is een geduldige vrijwilliger die u gratis helpt met al uw digitale vragen. Heeft u moeite met uw smartphone, e-mail, of het inloggen via Itsme? Onze helpers leggen het stap voor stap uit in duidelijke taal. Vrije inloop zonder afspraak!
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digipunten Maasland</title>
+<!-- Met deze correcte links in de <head> laadt je pagina meteen snel: -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<!-- Vervang de script tag onderaan de pagina door: -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+       <style> /* Clean & Modern Styling met grote UI */
+        body { font-size: 1.3rem; font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.3s, color 0.3s; color: #212529; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .nav-pills .nav-link { font-size: 1.4rem; font-weight: bold; padding: 12px 24px; border-radius: 12px; }
+        .table { font-size: 1.25rem; }
+        .table th { background-color: #f8f9fa; font-weight: 700; }
+        
+        /* Grote toegankelijke knoppen */
+        .btn-accessible { font-size: 1.4rem; padding: 15px 25px; font-weight: bold; border-radius: 12px; }
+
+        /* Hoge Contrast / Donkere Modus */
+        body.dark-mode { background-color: #121212 !important; color: #f8f9fa !important; }
+        body.dark-mode .card { background-color: #1e1e1e !important; color: #f8f9fa !important; border: 1px solid #333; }
+        body.dark-mode .table { color: #f8f9fa !important; }
+        body.dark-mode .table th { background-color: #2d2d2d !important; color: #fff !important; }
+        body.dark-mode .table-striped tbody tr:nth-of-type(odd) { background-color: #252525 !important; color: #fff !important; }
+        body.dark-mode .nav-link:not(.active) { color: #fff !important; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Toegankelijkheidsbalk & Regelaars -->
+    <header class="container my-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <span class="fw-black text-primary fs-3"><i class="bi bi-cpu-fill"></i> Digipunten Regio Maasland</span>
+        <div class="d-flex gap-2">
+            <button class="btn btn-warning fw-bold btn-lg" onclick="speakText()" aria-label="Lees de pagina voor">
+                <i class="bi bi-volume-up-fill"></i> Lees Voor
+            </button>
+            <button class="btn btn-dark fw-bold btn-lg" onclick="toggleContrast()" aria-label="Wissel contrast modus">
+                <i class="bi bi-contrast"></i> Contrast Wisselen
+            </button>
+        </div>
+    </header>
+
+    <main class="container mb-5" id="main-content">
+        
+        <!-- Introductie -->
+        <section class="card p-4 mb-4 bg-white">
+            <h1 class="display-6 fw-bold text-dark">Wat doet een Digihelper?</h1>
+            <p class="mt-3">
+                Een digihelper is een geduldige vrijwilliger die u <strong>gratis helpt</strong> met al uw digitale vragen. 
+                Heeft u moeite met uw smartphone, e-mail, of het inloggen via <strong>Itsme</strong>? 
+                Onze helpers leggen het stap voor stap uit in duidelijke taal. Vrije inloop zonder afspraak!
+            </p>
+        </section>
+
+        <!-- Dynamic Filter Tabs voor Overzichtelijkheid -->
+        <section class="card p-4 bg-white">
+            <h2 class="fw-bold mb-4"><i class="bi bi-calendar3"></i> Bekijk de openingsuren per regio</h2>
+            
+            <ul class="nav nav-pills mb-4 gap-2" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active btn-accessible" id="pills-maasmechelen-tab" data-bs-toggle="pill" data-bs-target="#pills-maasmechelen" type="button" role="tab">Maasmechelen (Uw Regio)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-accessible" id="pills-andere-tab" data-bs-toggle="pill" data-bs-target="#pills-andere" type="button" role="tab">Andere Gemeenten (Maasland)</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+                
+                <!-- TAB 1: MAASMECHELEN (GEBASEERD OP DE RODE KADERS VAN UW SCHEMA) -->
+                <div class="tab-pane fade show active" id="pills-maasmechelen" role="tabpanel">
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-3 fs-3"></i>
+                        <div><strong>Belangrijk:</strong> De punten op 'Wijkwerken' en het 'Sociaal Huis' zijn permanent gesloten. Zie hieronder de actieve locaties.</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Dag</th>
+                                    <th>Locatie & Adres</th>
+                                    <th>Openingsuren</th>
+                                    <th>Status / Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Dinsdag</strong></td>
+                                    <td><strong>SOMA Maasmechelen</strong></td>
+                                    <td>09u30 - 11u30</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dinsdag</strong></td>
+                                    <td><strong>Bibliotheek Maasmechelen</strong></td>
+                                    <td>15u00 - 17u30</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Woensdag</strong></td>
+                                    <td><strong>Gezonde Buurt / CM Maasmechelen</strong></td>
+                                    <td>09u00 - 12u00</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Woensdag</strong></td>
+                                    <td><strong>Huis van de Mens Maasmechelen</strong></td>
+                                    <td>13u30 - 16u00</td>
+                                    <td><span class="badge bg-warning text-dark fs-6">Enkel op afspraak</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Donderdag</strong></td>
+                                    <td><strong>SOMA Maasmechelen</strong></td>
+                                    <td>09u30 - 11u30</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Donderdag</strong></td>
+                                    <td><strong>De Bolster Maasmechelen</strong></td>
+                                    <td>13u00 - 15u30</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Donderdag</strong></td>
+                                    <td><strong>Bibliotheek Maasmechelen</strong></td>
+                                    <td>13u00 - 15u00</td>
+                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ANDERE GEMEENTEN BINNEN HET MAASLAND -->
+                <div class="tab-pane fade" id="pills-andere" role="tabpanel">
+                    <p class="text-muted mb-3">* Tip: Contacteer deze locaties eerst kort voor u vertrekt om te controleren of er wijzigingen zijn.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Gemeente</th>
+                                    <th>Locatie</th>
+                                    <th>Dag & Uren</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Lanaken</strong></td>
+                                    <td>Bibliotheek De Bron<br>Sociaal Huis<br>Aan de Statie / Babbelbus</td>
+                                    <td>Woensdag 14u00 - 16u00 & Vrijdag 10u00 - 12u00<br>Woensdag 09u00 - 11u00<br>Donderdag (Wisselende data) 13u30 - 16u30</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dilsen-Stokkem</strong></td>
+                                    <td>LDC Stokheim<br>Bibliotheek Dilsen-Stokkem</td>
+                                    <td>Donderdag 09u00 - 12u00 & Zaterdag (1ste v/d maand) 14u00 - 17u00<br>Maandag 14u00 - 16u00 & Woensdag (Oneven weken) 18u30 - 20u30</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Maaseik</strong></td>
+                                    <td>Dorpsrestaurants Maaseik<br>Bibliotheek Maaseik<br>OCMW Maaseik / Kringwinkel</td>
+									                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- Einde van Tab Andere Gemeenten -->
+
+            </div> <!-- Einde van Tab-Content -->
+        </section>
+
+    </main>
+
+    <!-- Bootstrap 5 JavaScript Bundle -->
+    <script src="https://jsdelivr.net"></script>
+    
+    <script>
+        // 1. Contrast Modus Toggle (Wisselen tussen Licht en Donker)
+        function toggleContrast() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // 2. Text-to-Speech (Voorleesfunctie voor minderzienden)
+        function speakText() {
+            // Haalt alle tekst binnen het hoofdgedeelte op
+            const textToRead = document.getElementById('main-content').innerText;
+            
+            // Als de stem al aan het praten is, stopt deze direct bij een tweede klik
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'nl-BE';  // Prachtige Vlaamse stem-instelling
+            utterance.rate = 0.85;     // Comfortabel, rustig voorleestempo
+            
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>
+
