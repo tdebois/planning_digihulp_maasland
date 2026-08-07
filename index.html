@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="nl" translate="no">
 <head>
+    <script>
+  (function() {
+    // 1. Controleer of de gebruiker niet al handmatig een taal heeft gekozen
+    const savedLanguage = localStorage.getItem('user_language');
+    
+    // 2. Haal de voorkeurstaal van de browser op (bijv. "nl-BE", "nl", "en-US", "fr")
+    const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+
+    // 3. Bepaal de doellocatie op basis van de browser-instelling of opgeslagen taal
+    let targetPage = '';
+
+    const lang = savedLanguage || browserLang;
+
+    if (lang.startsWith('nl')) {
+      targetPage = 'index.html'; // of 'index-nl.html'
+    } else if (lang.startsWith('fr')) {
+      targetPage = 'index-fr.html';
+    } else if (lang.startsWith('de')) {
+      targetPage = 'index-de.html';
+    } else if (lang.startsWith('es')) {
+      targetPage = 'index-es.html';
+    } else if (lang.startsWith('en')) {
+      targetPage = 'index-en.html';
+    } else {
+      targetPage = 'index-en.html'; // Standaard terugvaloptie (fallback) voor overige talen
+    }
+
+    // 4. Stuur alleen door als de bezoeker nog niet op de juiste pagina zit
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    if (currentPage !== targetPage) {
+      window.location.href = targetPage;
+    }
+  })();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Nederlands</title>
@@ -24,10 +59,13 @@
         </nav>
         
         <!-- Hoofdnavigatie -->
-        <nav class="main-nav">
-            <a href="index.html">Home</a>
-            <a href="pagina-nl.html">Informatie Pagina</a>
-        </nav>
+<nav class="language-switcher">
+  <a href="index.html" onclick="setLanguage('nl')">NL</a> | 
+  <a href="index-fr.html" onclick="setLanguage('fr')">FR</a> | 
+  <a href="index-en.html" onclick="setLanguage('en')">EN</a> | 
+  <a href="index-de.html" onclick="setLanguage('de')">DE</a> | 
+  <a href="index-es.html" onclick="setLanguage('es')">ES</a>
+</nav>
     </header>
 
     <main>
@@ -36,5 +74,13 @@
         <p>Ga naar de <a href="pagina-nl.html">Nederlandse informatiepagina</a>.</p>
     </main>
 
+<!-- Overige inhoud van je pagina... -->
+
+    <!-- PLAATS DE FUNCTIE ONDERAAN DE BODY -->
+    <script>
+      function setLanguage(langCode) {
+        localStorage.setItem('user_language', langCode);
+      }
+    </script>
 </body>
 </html>
