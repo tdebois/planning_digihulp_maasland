@@ -37,104 +37,40 @@
 <body class="bg-light">
 
     <!-- Barra de Accesibilidad y Controles -->
-    <header class="container my-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <a href="index_es.html" class="text-decoration-none">
-            <span class="fw-black text-primary fs-3"><i class="bi bi-cpu-fill"></i> Digipunten Regio Maasland</span>
-        </a>
-        
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-            <!-- Enlaces de Selección de Idioma -->
-            <select class="form-select form-select-lg w-auto" onchange="if (this.value) window.location.href=this.value;" aria-label="Seleccionar idioma de la página">
-                <option value="index.html">🇳🇱 Nederlands</option>
-                <option value="index_en.html">🇬🇧 English</option>
-                <option value="index_zh.html">🇨🇳 中文 (Mandarijn)</option>
-                <option value="index_hi.html">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="index_es.html" selected>🇪🇸 Español</option>
-            </select>
+    <header class="container my-4 d-flex flex-wrap justify-content-between<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Español</title>
+    <link rel="alternate" hreflang="nl" href="index.html" />
+    <link rel="alternate" hreflang="fr" href="index-fr.html" />
+    <link rel="alternate" hreflang="en" href="index-en.html" />
+    <link rel="alternate" hreflang="de" href="index-de.html" />
+    <link rel="alternate" hreflang="es" href="index-es.html" />
+</head>
+<body>
 
-            <button class="btn btn-warning fw-bold btn-lg" onclick="speakText()" aria-label="Leer página en voz alta">
-                <i class="bi bi-volume-up-fill"></i> Leer en Voz Alta (Rápido)
-            </button>
-            <button class="btn btn-dark fw-bold btn-lg" onclick="toggleContrast()" aria-label="Cambiar modo de contraste">
-                <i class="bi bi-contrast"></i> Contraste
-            </button>
-        </div>
+    <header>
+        <nav class="language-switcher">
+            <a href="index.html">NL</a> | 
+            <a href="index-fr.html">FR</a> | 
+            <a href="index-en.html">EN</a> | 
+            <a href="index-de.html">DE</a> | 
+            <span><strong>ES</strong></span>
+        </nav>
+        
+        <nav class="main-nav">
+            <a href="index-es.html">Inicio</a>
+            <a href="pagina-es.html">Página de información</a>
+        </nav>
     </header>
 
-    <main class="container mb-5" id="main-content">
-        
-        <!-- Introducción -->
-        <section class="card p-4 mb-4 bg-white">
-            <h1 class="display-6 fw-bold text-dark">¿Qué hace un Digihelper?</h1>
-            <p class="mt-3">
-                Un digihelper es un voluntario paciente que le ayuda <strong>gratuitamente</strong> con todas sus dudas digitales. 
-                ¿Tiene problemas con su teléfono inteligente, correo electrónico o al iniciar sesión con <strong>Itsme</strong>? 
-                Nuestros colaboradores se lo explican paso a paso con un lenguaje claro. ¡Entrada libre sin cita previa!
-            </p>
-        </section>
-
-        <!-- Selección de Municipio -->
-        <section class="card p-4 mb-4 bg-white">
-            <h2 class="fw-bold mb-4 text-center text-primary">
-                <i class="bi bi-geo-alt-fill"></i> Seleccione su municipio
-            </h2>
-            <p class="text-center text-muted mb-4">Haga clic en el municipio donde desee visitar un Digipunt:</p>
-
-            <div class="row g-3">
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_mm.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maasmechelen</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Ver Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_lanaken.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Lanaken</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Ver Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_dilsen.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Dilsen-Stokkem</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Ver Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_maaseik.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maaseik</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Ver Digipunten</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
+    <main>
+        <h1>Bienvenido al Índice en Español</h1>
+        <p>Esta es la página principal de inicio en español.</p>
+        <p>Ir a la <a href="pagina-es.html">página de información en español</a>.</p>
     </main>
 
-    <script>
-        function toggleContrast() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function speakText() {
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                return;
-            }
-
-            const fullText = document.getElementById('main-content').innerText;
-            const sentences = fullText.match(/[^.!?¡¿]+[.!?¡¿]+/g) || [fullText];
-            const shortText = sentences.slice(0, 5).join(' ');
-
-            const utterance = new SpeechSynthesisUtterance(shortText);
-            utterance.lang = 'es-ES';
-            utterance.rate = 1.0;
-            
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
 </body>
 </html>
