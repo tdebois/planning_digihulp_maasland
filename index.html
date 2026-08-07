@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digipunten Maasland</title>
+    <title>Digipunten Maasland - Kies uw gemeente</title>
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -12,20 +12,26 @@
     <style>
         body { font-size: 1.3rem; font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.3s, color 0.3s; color: #212529; }
         .card { border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .nav-pills .nav-link { font-size: 1.4rem; font-weight: bold; padding: 12px 24px; border-radius: 12px; }
-        .table { font-size: 1.25rem; }
-        .table th { background-color: #f8f9fa; font-weight: 700; }
-        
-        .btn-accessible { font-size: 1.4rem; padding: 15px 25px; font-weight: bold; border-radius: 12px; }
         .form-select-lg { font-size: 1.2rem; font-weight: bold; border-radius: 12px; }
+        
+        .municipality-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid #0d6efd;
+            text-decoration: none;
+            color: inherit;
+        }
+        .municipality-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.2);
+            background-color: #f0f7ff;
+            color: inherit;
+        }
 
         /* Hoge Contrast / Donkere Modus */
         body.dark-mode { background-color: #121212 !important; color: #f8f9fa !important; }
         body.dark-mode .card { background-color: #1e1e1e !important; color: #f8f9fa !important; border: 1px solid #333; }
-        body.dark-mode .table { color: #f8f9fa !important; }
-        body.dark-mode .table th { background-color: #2d2d2d !important; color: #fff !important; }
-        body.dark-mode .table-striped tbody tr:nth-of-type(odd) { background-color: #252525 !important; color: #fff !important; }
-        body.dark-mode .nav-link:not(.active) { color: #fff !important; }
+        body.dark-mode .municipality-card { border-color: #0d6efd !important; }
+        body.dark-mode .municipality-card:hover { background-color: #2a2a2a !important; }
     </style>
 </head>
 <body class="bg-light">
@@ -35,7 +41,6 @@
         <span class="fw-black text-primary fs-3"><i class="bi bi-cpu-fill"></i> Digipunten Regio Maasland</span>
         
         <div class="d-flex flex-wrap gap-2 align-items-center">
-            <!-- Navigatie Links naar de vertaalde HTML-pagina's -->
             <select class="form-select form-select-lg w-auto" onchange="if (this.value) window.location.href=this.value;" aria-label="Kies taal van de pagina">
                 <option value="index.html" selected>🇳🇱 Nederlands</option>
                 <option value="index_en.html">🇬🇧 English</option>
@@ -65,112 +70,42 @@
             </p>
         </section>
 
-        <!-- Dynamic Filter Tabs -->
-        <section class="card p-4 bg-white">
-            <h2 class="fw-bold mb-4"><i class="bi bi-calendar3"></i> Bekijk de openingsuren per regio</h2>
-            
-            <ul class="nav nav-pills mb-4 gap-2" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active btn-accessible" id="pills-maasmechelen-tab" data-bs-toggle="pill" data-bs-target="#pills-maasmechelen" type="button" role="tab">Maasmechelen (Uw Regio)</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link btn-accessible" id="pills-andere-tab" data-bs-toggle="pill" data-bs-target="#pills-andere" type="button" role="tab">Andere Gemeenten (Maasland)</button>
-                </li>
-            </ul>
+        <!-- GEMEENTESELECTIE -->
+        <section class="card p-4 mb-4 bg-white">
+            <h2 class="fw-bold mb-4 text-center text-primary">
+                <i class="bi bi-geo-alt-fill"></i> Kies uw gemeente
+            </h2>
+            <p class="text-center text-muted mb-4">Klik op de gemeente waar u een Digipunt wilt bezoeken:</p>
 
-            <div class="tab-content" id="pills-tabContent">
-                
-                <!-- TAB 1: MAASMECHELEN -->
-                <div class="tab-pane fade show active" id="pills-maasmechelen" role="tabpanel">
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <i class="bi bi-info-circle-fill me-3 fs-3"></i>
-                        <div><strong>Belangrijk:</strong> De punten op 'Wijkwerken' en het 'Sociaal Huis' zijn permanent gesloten. Zie hieronder de actieve locaties.</div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Dag</th>
-                                    <th>Locatie & Adres</th>
-                                    <th>Openingsuren</th>
-                                    <th>Status / Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Dinsdag</strong></td>
-                                    <td><strong>SOMA Maasmechelen</strong></td>
-                                    <td>09u30 - 11u30</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Dinsdag</strong></td>
-                                    <td><strong>Bibliotheek Maasmechelen</strong></td>
-                                    <td>15u00 - 17u30</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Woensdag</strong></td>
-                                    <td><strong>Gezonde Buurt / CM Maasmechelen</strong></td>
-                                    <td>09u00 - 12u00</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Donderdag</strong></td>
-                                    <td><strong>SOMA Maasmechelen</strong></td>
-                                    <td>09u30 - 11u30</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Donderdag</strong></td>
-                                    <td><strong>De Bolster Maasmechelen</strong></td>
-                                    <td>13u00 - 15u30</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Donderdag</strong></td>
-                                    <td><strong>Bibliotheek Maasmechelen</strong></td>
-                                    <td>13u00 - 15u00</td>
-                                    <td><span class="badge bg-success fs-6">Vrije inloop</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <a href="gemeente_mm.html" class="card p-4 text-center municipality-card h-100">
+                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
+                        <h3 class="fw-bold fs-4">Maasmechelen</h3>
+                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
+                    </a>
                 </div>
-
-                <!-- TAB 2: ANDERE GEMEENTEN -->
-                <div class="tab-pane fade" id="pills-andere" role="tabpanel">
-                    <p class="text-muted mb-3">* Tip: Contacteer deze locaties eerst kort voor u vertrekt om te controleren of er wijzigingen zijn.</p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Gemeente</th>
-                                    <th>Locatie</th>
-                                    <th>Dag & Uren</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Lanaken</strong></td>
-                                    <td>Bibliotheek De Bron<br>Sociaal Huis<br>Aan de Statie / Babbelbus</td>
-                                    <td>Woensdag 14u00 - 16u00 & Vrijdag 10u00 - 12u00<br>Woensdag 09u00 - 11u00<br>Donderdag (Wisselende data) 13u30 - 16u30</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Dilsen-Stokkem</strong></td>
-                                    <td>LDC Stokheim<br>Bibliotheek Dilsen-Stokkem</td>
-                                    <td>Donderdag 09u00 - 12u00 & Zaterdag (1ste v/d maand) 14u00 - 17u00<br>Maandag 14u00 - 16u00 & Woensdag (Oneven weken) 18u30 - 20u30</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Maaseik</strong></td>
-                                    <td>Dorpsrestaurants Maaseik<br>Bibliotheek Maaseik<br>OCMW Maaseik / Kringwinkel</td>
-                                    <td>Verschillende dagen beschikbaar per locatie.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="gemeente_lanaken.html" class="card p-4 text-center municipality-card h-100">
+                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
+                        <h3 class="fw-bold fs-4">Lanaken</h3>
+                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
+                    </a>
                 </div>
-
+                <div class="col-md-6 col-lg-3">
+                    <a href="gemeente_dilsen.html" class="card p-4 text-center municipality-card h-100">
+                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
+                        <h3 class="fw-bold fs-4">Dilsen-Stokkem</h3>
+                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="gemeente_maaseik.html" class="card p-4 text-center municipality-card h-100">
+                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
+                        <h3 class="fw-bold fs-4">Maaseik</h3>
+                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
+                    </a>
+                </div>
             </div>
         </section>
 
