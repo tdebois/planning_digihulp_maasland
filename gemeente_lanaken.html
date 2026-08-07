@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digipunten Lanaken</title>
-    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <style>
         body { font-size: 1.15rem; font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.3s, color 0.3s; color: #212529; }
         .card { border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .form-select-lg { font-size: 1.1rem; font-weight: bold; border-radius: 12px; }
-
         .accordion-button { font-size: 1.25rem; font-weight: 700; padding: 1rem; border-radius: 12px !important; }
         .accordion-item { border: 1px solid #dee2e6; border-radius: 12px !important; margin-bottom: 0.75rem; overflow: hidden; }
         .accordion-button:not(.collapsed) { background-color: #e7f1ff; color: #0c63e4; }
         .location-card { background-color: #f8f9fa; border-left: 4px solid #0d6efd; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
         .location-card:last-child { margin-bottom: 0; }
-
         body.dark-mode { background-color: #121212 !important; color: #f8f9fa !important; }
         body.dark-mode .card, body.dark-mode .accordion-item { background-color: #1e1e1e !important; color: #f8f9fa !important; border-color: #333; }
         body.dark-mode .accordion-button { background-color: #2a2a2a !important; color: #fff !important; }
@@ -29,119 +25,58 @@
     </style>
 </head>
 <body class="bg-light">
-
     <header class="container my-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
         <a href="index.html" class="text-decoration-none">
             <span class="fw-black text-primary fs-4"><i class="bi bi-cpu-fill"></i> Digipunten Maasland</span>
         </a>
-        
         <div class="d-flex flex-wrap gap-2 align-items-center">
-            <select class="form-select form-select-lg w-auto" onchange="if (this.value) window.location.href=this.value;" aria-label="Kies taal van de pagina">
-                <option value="index.html" selected>🇳🇱 Nederlands</option>
-                <option value="index_en.html">🇬🇧 English</option>
-                <option value="index_zh.html">🇨🇳 中文 (Mandarijn)</option>
-                <option value="index_hi.html">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="index_es.html">🇪🇸 Español</option>
+            <select class="form-select form-select-lg w-auto" onchange="if (this.value) window.location.href=this.value;" aria-label="Taal">
+                <option value="gemeente_lanaken.html" selected>🇳🇱 Nederlands</option>
+                <option value="gemeente_lanaken_en.html">🇬🇧 English</option>
+                <option value="gemeente_lanaken_zh.html">🇨🇳 中文</option>
+                <option value="gemeente_lanaken_hi.html">🇮🇳 हिन्दी</option>
+                <option value="gemeente_lanaken_es.html">🇪🇸 Español</option>
             </select>
-
-            <button class="btn btn-warning fw-bold btn-sm" onclick="speakText()" aria-label="Lees voor">
-                <i class="bi bi-volume-up-fill"></i> Voorlezen
-            </button>
-            <button class="btn btn-dark fw-bold btn-sm" onclick="toggleContrast()" aria-label="Contrast">
-                <i class="bi bi-contrast"></i> Contrast
-            </button>
+            <button class="btn btn-warning fw-bold btn-sm" onclick="speakText('nl-BE')"><i class="bi bi-volume-up-fill"></i> Voorlezen</button>
+            <button class="btn btn-dark fw-bold btn-sm" onclick="toggleContrast()"><i class="bi bi-contrast"></i> Contrast</button>
         </div>
     </header>
-
     <main class="container mb-5" id="main-content">
         <section class="card p-3 bg-white">
-            
             <div class="d-flex flex-column gap-2 mb-3">
-                <a href="index.html" class="btn btn-outline-secondary btn-sm fw-bold align-self-start">
-                    <i class="bi bi-arrow-left"></i> Kies een andere gemeente
-                </a>
-                <h1 class="fw-bold text-primary fs-3 mb-0">
-                    <i class="bi bi-geo-alt-fill"></i> Digipunten Lanaken
-                </h1>
+                <a href="index.html" class="btn btn-outline-secondary btn-sm fw-bold align-self-start"><i class="bi bi-arrow-left"></i> Alle gemeenten</a>
+                <h1 class="fw-bold text-primary fs-3 mb-0"><i class="bi bi-geo-alt-fill"></i> Digipunten Lanaken</h1>
             </div>
-
-            <p class="text-muted small mb-3">* Tip: Controleer voor u vertrekt kort of de uren gewijzigd zijn.</p>
-
             <div class="accordion" id="accordionLanaken">
-                
-                <!-- WOENSDAG -->
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingWoensdag">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWoensdag" aria-expanded="true" aria-controls="collapseWoensdag">
-                            📅 Woensdag
-                        </button>
-                    </h2>
-                    <div id="collapseWoensdag" class="accordion-collapse collapse show" aria-labelledby="headingWoensdag" data-bs-parent="#accordionLanaken">
-                        <div class="accordion-body p-2">
-                            <div class="location-card">
-                                <div class="fw-bold text-dark fs-5">Sociaal Huis Lanaken</div>
-                                <div class="text-muted"><i class="bi bi-clock"></i> 09u00 - 11u00</div>
-                                <div class="mt-1"><span class="badge bg-success">Vrije inloop</span></div>
-                            </div>
-                            <div class="location-card">
-                                <div class="fw-bold text-dark fs-5">Bibliotheek De Bron</div>
-                                <div class="text-muted"><i class="bi bi-clock"></i> 14u00 - 16u00</div>
-                                <div class="mt-1"><span class="badge bg-success">Vrije inloop</span></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lan_wo">📅 Woensdag</button></h2>
+                    <div id="lan_wo" class="accordion-collapse collapse show" data-bs-parent="#accordionLanaken"><div class="accordion-body p-2">
+                        <div class="location-card"><div class="fw-bold fs-5">Sociaal Huis Lanaken</div><div class="text-muted"><i class="bi bi-clock"></i> 09u00 - 11u00</div><span class="badge bg-success mt-1">Vrije inloop</span></div>
+                        <div class="location-card"><div class="fw-bold fs-5">Bibliotheek De Bron</div><div class="text-muted"><i class="bi bi-clock"></i> 14u00 - 16u00</div><span class="badge bg-success mt-1">Vrije inloop</span></div>
+                    </div></div>
                 </div>
-
-                <!-- DONDERDAG -->
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingDonderdag">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDonderdag" aria-expanded="false" aria-controls="collapseDonderdag">
-                            📅 Donderdag
-                        </button>
-                    </h2>
-                    <div id="collapseDonderdag" class="accordion-collapse collapse" aria-labelledby="headingDonderdag" data-bs-parent="#accordionLanaken">
-                        <div class="accordion-body p-2">
-                            <div class="location-card">
-                                <div class="fw-bold text-dark fs-5">Aan de Statie / Babbelbus</div>
-                                <div class="text-muted"><i class="bi bi-clock"></i> 13u30 - 16u30 (Wisselende data)</div>
-                                <div class="mt-1"><span class="badge bg-success">Vrije inloop</span></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lan_do">📅 Donderdag</button></h2>
+                    <div id="lan_do" class="accordion-collapse collapse" data-bs-parent="#accordionLanaken"><div class="accordion-body p-2">
+                        <div class="location-card"><div class="fw-bold fs-5">Aan de Statie / Babbelbus</div><div class="text-muted"><i class="bi bi-clock"></i> 13u30 - 16u30 (Wisselende data)</div><span class="badge bg-success mt-1">Vrije inloop</span></div>
+                    </div></div>
                 </div>
-
-                <!-- VRIJDAG -->
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingVrijdag">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVrijdag" aria-expanded="false" aria-controls="collapseVrijdag">
-                            📅 Vrijdag
-                        </button>
-                    </h2>
-                    <div id="collapseVrijdag" class="accordion-collapse collapse" aria-labelledby="headingVrijdag" data-bs-parent="#accordionLanaken">
-                        <div class="accordion-body p-2">
-                            <div class="location-card">
-                                <div class="fw-bold text-dark fs-5">Bibliotheek De Bron</div>
-                                <div class="text-muted"><i class="bi bi-clock"></i> 10u00 - 12u00</div>
-                                <div class="mt-1"><span class="badge bg-success">Vrije inloop</span></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lan_vr">📅 Vrijdag</button></h2>
+                    <div id="lan_vr" class="accordion-collapse collapse" data-bs-parent="#accordionLanaken"><div class="accordion-body p-2">
+                        <div class="location-card"><div class="fw-bold fs-5">Bibliotheek De Bron</div><div class="text-muted"><i class="bi bi-clock"></i> 10u00 - 12u00</div><span class="badge bg-success mt-1">Vrije inloop</span></div>
+                    </div></div>
                 </div>
-
             </div>
         </section>
     </main>
-
     <script>
         function toggleContrast() { document.body.classList.toggle('dark-mode'); }
-        function speakText() {
+        function speakText(lang) {
             if (window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); return; }
-            const fullText = document.getElementById('main-content').innerText;
-            const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [fullText];
-            const utterance = new SpeechSynthesisUtterance(sentences.slice(0, 5).join(' '));
-            utterance.lang = 'nl-BE';
-            utterance.rate = 1.0;
-            window.speechSynthesis.speak(utterance);
+            const text = document.getElementById('main-content').innerText;
+            const u = new SpeechSynthesisUtterance(text.slice(0, 300));
+            u.lang = lang; window.speechSynthesis.speak(u);
         }
     </script>
 </body>
