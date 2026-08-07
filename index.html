@@ -3,138 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digipunten Maasland - Kies uw gemeente</title>
-    <!-- Bootstrap CSS & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
-        body { font-size: 1.3rem; font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.3s, color 0.3s; color: #212529; }
-        .card { border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .form-select-lg { font-size: 1.2rem; font-weight: bold; border-radius: 12px; }
-        
-        .municipality-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid #0d6efd;
-            text-decoration: none;
-            color: inherit;
-        }
-        .municipality-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.2);
-            background-color: #f0f7ff;
-            color: inherit;
-        }
-
-        /* Hoge Contrast / Donkere Modus */
-        body.dark-mode { background-color: #121212 !important; color: #f8f9fa !important; }
-        body.dark-mode .card { background-color: #1e1e1e !important; color: #f8f9fa !important; border: 1px solid #333; }
-        body.dark-mode .municipality-card { border-color: #0d6efd !important; }
-        body.dark-mode .municipality-card:hover { background-color: #2a2a2a !important; }
-    </style>
+    <title>Home - Nederlands</title>
+    <!-- SEO Taallinks -->
+    <link rel="alternate" hreflang="nl" href="index.html" />
+    <link rel="alternate" hreflang="fr" href="index-fr.html" />
+    <link rel="alternate" hreflang="en" href="index-en.html" />
+    <link rel="alternate" hreflang="de" href="index-de.html" />
+    <link rel="alternate" hreflang="es" href="index-es.html" />
 </head>
-<body class="bg-light">
+<body>
 
-    <!-- Toegankelijkheidsbalk & Regelaars -->
-    <header class="container my-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <a href="index.html" class="text-decoration-none">
-            <span class="fw-black text-primary fs-3"><i class="bi bi-cpu-fill"></i> Digipunten Regio Maasland</span>
-        </a>
+    <header>
+        <!-- Taalschakelaar -->
+        <nav class="language-switcher">
+            <span><strong>NL</strong></span> | 
+            <a href="index-fr.html">FR</a> | 
+            <a href="index-en.html">EN</a> | 
+            <a href="index-de.html">DE</a> | 
+            <a href="index-es.html">ES</a>
+        </nav>
         
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-            <!-- Navigatie Links naar de vertaalde HTML-pagina's -->
-            <select class="form-select form-select-lg w-auto" onchange="if (this.value) window.location.href=this.value;" aria-label="Kies taal van de pagina">
-                <option value="index.html" selected>🇳🇱 Nederlands</option>
-                <option value="index_en.html">🇬🇧 English</option>
-                <option value="index_zh.html">🇨🇳 中文 (Mandarijn)</option>
-                <option value="index_hi.html">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="index_es.html">🇪🇸 Español</option>
-            </select>
-
-            <button class="btn btn-warning fw-bold btn-lg" onclick="speakText()" aria-label="Lees de pagina voor">
-                <i class="bi bi-volume-up-fill"></i> Lees Voor (Snel)
-            </button>
-            <button class="btn btn-dark fw-bold btn-lg" onclick="toggleContrast()" aria-label="Wissel contrast modus">
-                <i class="bi bi-contrast"></i> Contrast
-            </button>
-        </div>
+        <!-- Hoofdnavigatie -->
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="pagina-nl.html">Informatie Pagina</a>
+        </nav>
     </header>
 
-    <main class="container mb-5" id="main-content">
-        
-        <!-- Introductie -->
-        <section class="card p-4 mb-4 bg-white">
-            <h1 class="display-6 fw-bold text-dark">Wat doet een Digihelper?</h1>
-            <p class="mt-3">
-                Een digihelper is een geduldige vrijwilliger die u gratis helpt met al uw digitale vragen. 
-                Heeft u moeite met uw smartphone, e-mail, of het inloggen via Itsme? 
-                Onze helpers leggen het stap voor stap uit in duidelijke taal. Vrije inloop zonder afspraak!
-            </p>
-        </section>
-
-        <!-- GEMEENTESELECTIE -->
-        <section class="card p-4 mb-4 bg-white">
-            <h2 class="fw-bold mb-4 text-center text-primary">
-                <i class="bi bi-geo-alt-fill"></i> Kies uw gemeente
-            </h2>
-            <p class="text-center text-muted mb-4">Klik op de gemeente waar u een Digipunt wilt bezoeken:</p>
-
-            <div class="row g-3">
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_mm.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maasmechelen</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_lanaken.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Lanaken</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_dilsen.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Dilsen-Stokkem</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_maaseik.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maaseik</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
+    <main>
+        <h1>Welkom op de Nederlandse Index</h1>
+        <p>Dit is de hoofdindexpagina in het Nederlands.</p>
+        <p>Ga naar de <a href="pagina-nl.html">Nederlandse informatiepagina</a>.</p>
     </main>
 
-    <script>
-        function toggleContrast() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function speakText() {
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                return;
-            }
-
-            const fullText = document.getElementById('main-content').innerText;
-            const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [fullText];
-            const shortText = sentences.slice(0, 5).join(' ');
-
-            const utterance = new SpeechSynthesisUtterance(shortText);
-            utterance.lang = 'nl-BE';
-            utterance.rate = 1.0;
-            
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
 </body>
 </html>
