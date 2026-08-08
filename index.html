@@ -1,131 +1,167 @@
 <!DOCTYPE html>
-<html lang="nl" translate="no">
+<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digipunten Maasland - Kies uw gemeente</title>
-    <!-- Bootstrap CSS & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
-        body { font-size: 1.3rem; font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.3s, color 0.3s; color: #212529; }
-        .card { border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .form-select-lg { font-size: 1.2rem; font-weight: bold; border-radius: 12px; }
-        
-        .municipality-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid #0d6efd;
-            text-decoration: none;
-            color: inherit;
-        }
-        .municipality-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.2);
-            background-color: #f0f7ff;
-            color: inherit;
-        }
-
-        /* Hoge Contrast / Donkere Modus */
-        body.dark-mode { background-color: #121212 !important; color: #f8f9fa !important; }
-        body.dark-mode .card { background-color: #1e1e1e !important; color: #f8f9fa !important; border: 1px solid #333; }
-        body.dark-mode .municipality-card { border-color: #0d6efd !important; }
-        body.dark-mode .municipality-card:hover { background-color: #2a2a2a !important; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digihulp Maasland - Planning & Inloopmomenten</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { transition: font-size 0.2s, background-color 0.3s, color 0.3s; }
+    .high-contrast { background-color: #000000 !important; color: #ffff00 !important; }
+    .high-contrast .card, .high-contrast .accordion-item { background-color: #121212 !important; color: #ffff00 !important; border-color: #ffff00 !important; }
+    .high-contrast .btn { background-color: #ffff00 !important; color: #000000 !important; font-weight: bold; }
+    .bg-lanaken { background-color: #e7f1ff; border-left: 6px solid #0d6efd; }
+    .bg-maaseik { background-color: #e6f4ea; border-left: 6px solid #198754; }
+    .bg-maasmechelen { background-color: #fff3e0; border-left: 6px solid #fd7e14; }
+    .bg-dilsen { background-color: #f3e5f5; border-left: 6px solid #6f42c1; }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <!-- Toegankelijkheidsbalk & Regelaars -->
-    <header class="container my-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <span class="fw-black text-primary fs-3"><i class="bi bi-cpu-fill"></i> Digipunten Regio Maasland</span>
-        
-        <div class="d-flex flex-wrap gap-2 align-items-center">
+  <!-- TOEGANKELIJKHEIDSTOOLBAR -->
+  <div class="bg-dark text-white p-2 sticky-top">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <span class="fw-bold me-2">♿ Toegankelijkheid:</span>
+      <div class="btn-group my-1">
+        <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(-1)" title="Tekst verkleinen">A-</button>
+        <button class="btn btn-sm btn-outline-light" onclick="resetFontSize()" title="Herkans tekstgrootte">A</button>
+        <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(1)" title="Tekst vergroten">A+</button>
+      </div>
+      <button class="btn btn-sm btn-warning my-1 ms-2" onclick="toggleContrast()">🌗 Hoog Contrast</button>
+      <button class="btn btn-sm btn-info text-white my-1 ms-2" onclick="readPage()">🔊 Lees Voor</button>
+      <button class="btn btn-sm btn-danger my-1 ms-1" onclick="stopSpeech()">⏹️ Stop</button>
+    </div>
+  </div>
 
+  <!-- NAVIGATIE -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">Digihulp Maasland</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto fs-5">
+          <li class="nav-item"><a class="nav-link active fw-bold" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="gemeente_lanaken.html">Lanaken</a></li>
+          <li class="nav-item"><a class="nav-link" href="gemeente_maaseik.html">Maaseik</a></li>
+          <li class="nav-item"><a class="nav-link" href="gemeente_mm.html">Maasmechelen</a></li>
+          <li class="nav-item"><a class="nav-link" href="gemeente_dilsen.html">Dilsen-Stokkem</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-            <button class="btn btn-warning fw-bold btn-lg" onclick="speakText()" aria-label="Lees de pagina voor">
-                <i class="bi bi-volume-up-fill"></i> Lees Voor (Snel)
-            </button>
-            <button class="btn btn-dark fw-bold btn-lg" onclick="toggleContrast()" aria-label="Wissel contrast modus">
-                <i class="bi bi-contrast"></i> Contrast
-            </button>
+  <!-- MAIN CONTENT -->
+  <main class="container my-5">
+    <div class="text-center mb-5">
+      <h1 class="fw-bold display-5">Gratis Digital Hulp in Maasland</h1>
+      <p class="lead text-muted fs-4">Kies uw gemeente of bekijk het overzicht van inloopmomenten en workshops hieronder.</p>
+    </div>
+
+    <!-- ROTERENDE GEMEENTEN CONTAINER -->
+    <h2 class="h3 mb-4 fw-bold">📍 Overzicht per Gemeente</h2>
+    <div id="gemeentenContainer" class="row g-4">
+      <!-- Wordt via JavaScript opgesplitst en geroteerd -->
+    </div>
+  </main>
+
+  <!-- FOOTER & DISCLAIMER -->
+  <footer class="bg-light border-top py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <h5 class="fw-bold">Over Digihulp Maasland</h5>
+          <p>Dit project is opgericht om **digitale inclusie** te bevorderen in de regio Maasland. Wij bieden ondersteuning bij digitale vragen, van smartphones tot de e-overheid, via gratis inloopmomenten en gerichte workshops.</p>
         </div>
-    </header>
+        <div class="col-md-6 mb-4">
+          <h5 class="fw-bold">Toegankelijkheid & Design</h5>
+          <p>Deze website is gebouwd volgens de principes van **Usability** (eenvoudige en heldere bediening) en **Responsive Design** (optimale weergave op mobiel, tablet en computer). Dankzij de ingebouwde opties voor lettergrootte, contrast en tekst-naar-spraak kunnen ook slechtzienden en minder validen de site gemakkelijk gebruiken.</p>
+        </div>
+      </div>
+      <div class="text-center border-top pt-3 text-muted">
+        &copy; 2026 Digihulp Maasland - Samen digitaal mee.
+      </div>
+    </div>
+  </footer>
 
-    <main class="container mb-5" id="main-content">
-        
-        <!-- Introductie -->
-        <section class="card p-4 mb-4 bg-white">
-            <h1 class="display-6 fw-bold text-dark">Wat doet een Digihelper?</h1>
-            <p class="mt-3">
-                Een digihelper is een geduldige vrijwilliger die u gratis helpt met al uw digitale vragen. 
-                Heeft u moeite met uw smartphone, e-mail, of het inloggen via Itsme? 
-                Onze helpers leggen het stap voor stap uit in duidelijke taal. Vrije inloop zonder afspraak!
-            </p>
-        </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // TOEGANKELIJKHEID SCRIPTS
+    let fontZoom = 100;
+    function changeFontSize(step) {
+      fontZoom += step * 10;
+      if (fontZoom < 80) fontZoom = 80;
+      if (fontZoom > 140) fontZoom = 140;
+      document.body.style.fontSize = fontZoom + "%";
+    }
+    function resetFontSize() {
+      fontZoom = 100;
+      document.body.style.fontSize = "100%";
+    }
+    function toggleContrast() {
+      document.body.classList.toggle("high-contrast");
+    }
 
-        <!-- GEMEENTESELECTIE -->
-        <section class="card p-4 mb-4 bg-white">
-            <h2 class="fw-bold mb-4 text-center text-primary">
-                <i class="bi bi-geo-alt-fill"></i> Kies uw gemeente
-            </h2>
-            <p class="text-center text-muted mb-4">Klik op de gemeente waar u een Digipunt wilt bezoeken:</p>
+    // TEXT TO SPEECH
+    function readPage() {
+      stopSpeech();
+      const text = document.querySelector("main").innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "nl-NL";
+      window.speechSynthesis.speak(utterance);
+    }
+    function stopSpeech() {
+      window.speechSynthesis.cancel();
+    }
 
-            <div class="row g-3">
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_mm.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maasmechelen</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_lanaken.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Lanaken</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_dilsen.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Dilsen-Stokkem</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="gemeente_maaseik.html" class="card p-4 text-center municipality-card h-100">
-                        <i class="bi bi-building fs-1 text-primary mb-2"></i>
-                        <h3 class="fw-bold fs-4">Maaseik</h3>
-                        <span class="btn btn-outline-primary mt-2 fw-bold">Bekijk Digipunten</span>
-                    </a>
-                </div>
+    // ROTERENDE GEMEENTEN OP INDEX
+    const gemeenten = [
+      {
+        naam: "Lanaken",
+        klasse: "bg-lanaken",
+        link: "gemeente_lanaken.html",
+        info: "Aan de Statie (1e/3e do) & Repair Café (3e do 19:30-21:30) | Bib Lanaken (Wo & Vr)"
+      },
+      {
+        naam: "Maaseik",
+        klasse: "bg-maaseik",
+        link: "gemeente_maaseik.html",
+        info: "Kringwinkel Maaseik: Elke donderdag van 13:00 tot 16:00"
+      },
+      {
+        naam: "Maasmechelen",
+        klasse: "bg-maasmechelen",
+        link: "gemeente_mm.html",
+        info: "SOMA: Elke dinsdag van 10:30 tot 12:30"
+      },
+      {
+        naam: "Dilsen-Stokkem",
+        klasse: "bg-dilsen",
+        link: "gemeente_dilsen.html",
+        info: "Bekijk de specifieke inloopuren en locatiegegevens voor Dilsen-Stokkem."
+      }
+    ];
+
+    function renderGemeenten() {
+      // Willekeurige of roterende volgorde
+      const shuffled = [...gemeenten].sort(() => Math.random() - 0.5);
+      const container = document.getElementById("gemeentenContainer");
+      container.innerHTML = "";
+      shuffled.forEach(g => {
+        container.innerHTML += `
+          <div class="col-md-6">
+            <div class="card h-100 p-4 shadow-sm ${g.klasse}">
+              <h3 class="fw-bold mb-2">📍 ${g.naam}</h3>
+              <p class="fs-5 flex-grow-1">${g.info}</p>
+              <a href="${g.link}" class="btn btn-primary btn-lg mt-3 w-100 fw-bold">Bekijk details ${g.naam} &rarr;</a>
             </div>
-        </section>
+          </div>
+        `;
+      });
+    }
 
-    </main>
-
-    <script>
-        function toggleContrast() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function speakText() {
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                return;
-            }
-
-            const fullText = document.getElementById('main-content').innerText;
-            const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [fullText];
-            const shortText = sentences.slice(0, 5).join(' ');
-
-            const utterance = new SpeechSynthesisUtterance(shortText);
-            utterance.lang = 'nl-BE';
-            utterance.rate = 1.0;
-            
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
+    document.addEventListener("DOMContentLoaded", renderGemeenten);
+  </script>
 </body>
 </html>
