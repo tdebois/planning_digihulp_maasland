@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digipunten Maasland - Overzicht & Zoeken</title>
+  <title>Digipunten Maasland - Overzicht, Zoeken & Kaart</title>
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Leaflet CSS voor de interactieve kaart -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     .search-section {
       background-color: #f8f9fa;
@@ -12,8 +15,14 @@
       padding: 2rem;
       margin-bottom: 2rem;
     }
+    #map {
+      height: 400px;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      z-index: 1;
+    }
     .location-card {
-      transition: transform 0.2s, shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .location-card:hover {
       transform: translateY(-3px);
@@ -28,7 +37,7 @@
 
   <div class="container py-5">
     <!-- Header -->
-    <header class="text-center mb-5">
+    <header class="text-center mb-4">
       <h1 class="display-5 fw-bold text-primary">Digipunten Maasland</h1>
       <p class="lead text-muted">Vind een Digipunt bij jou in de buurt voor al je digitale vragen en ondersteuning.</p>
     </header>
@@ -66,49 +75,55 @@
       </div>
     </section>
 
+    <!-- Interactieve Kaart -->
+    <div id="map" class="shadow-sm"></div>
+
     <!-- Resultaten Teller -->
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="mb-0">Beschikbare Digipunten</h4>
       <span id="resultCount" class="badge bg-secondary fs-6">0 punten gevonden</span>
     </div>
 
-    <!-- Kaart / Lijst van resultaten -->
+    <!-- Lijst van resultaten -->
     <div id="resultsContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <!-- Wordt dynamisch gevuld via JS -->
     </div>
   </div>
 
-  <!-- JavaScript Logica & Data -->
+  <!-- Leaflet JS voor de interactieve kaart -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
-    // Volledige en bijgewerkte dataset
+    // Dataset inclusief coördinaten (lat/lng) voor de kaart
     const digipunten = [
       // Maasmechelen
       {
         naam: "SOMA Maasmechelen",
         gemeente: "Maasmechelen",
         adres: "Koninginnelaan 102, 3630 Maasmechelen",
+        coords: [50.9631, 5.6984],
         uren: [
-          { dag: "Dinsdag", tijd: "10:30 – 12:30" }, // Gecorrigeerde tijd!
+          { dag: "Dinsdag", tijd: "10:30 – 12:30" },
           { dag: "Donderdag", tijd: "09:30 – 11:30" }
         ],
-        type: "Thomas Actief / Lokaal Punt",
-        extraInfo: "Belangrijk centraal punt in Maasmechelen."
+        type: "Thomas Actief / Lokaal Punt"
       },
       {
         naam: "Bibliotheek Maasmechelen",
         gemeente: "Maasmechelen",
         adres: "Willem Alexanderstraat 1, 3630 Maasmechelen",
+        coords: [50.9645, 5.6942],
         uren: [
           { dag: "Dinsdag", tijd: "15:00 – 17:30" },
           { dag: "Donderdag", tijd: "13:00 – 15:00" }
         ],
-        type: "Bibliotheek",
-        extraInfo: "Vaste ondersteuning in de bib."
+        type: "Bibliotheek"
       },
       {
         naam: "De Bolster Maasmechelen",
         gemeente: "Maasmechelen",
         adres: "Kerkstraat 30, 3630 Maasmechelen",
+        coords: [50.9680, 5.7010],
         uren: [
           { dag: "Donderdag", tijd: "13:00 – 15:30" }
         ],
@@ -118,6 +133,7 @@
         naam: "Gezonde Buurt / CM Maasmechelen",
         gemeente: "Maasmechelen",
         adres: "Rijksweg 310, 3630 Maasmechelen",
+        coords: [50.9612, 5.6880],
         uren: [
           { dag: "Woensdag", tijd: "09:00 – 12:00" }
         ],
@@ -127,6 +143,7 @@
         naam: "Huisvandemens Maasmechelen",
         gemeente: "Maasmechelen",
         adres: "Rijksweg 342, 3630 Maasmechelen",
+        coords: [50.9635, 5.6865],
         uren: [
           { dag: "Woensdag", tijd: "13:30 – 16:00" }
         ],
@@ -139,9 +156,10 @@
         naam: "Aan de Statie Lanaken",
         gemeente: "Lanaken",
         adres: "Koning Albertlaan 112, 3620 Lanaken",
+        coords: [50.8911, 5.6512],
         uren: [
-          { dag: "Donderdag", tijd: "13:30 – 16:00 (1ste + 3de van de maand)" },
-          { dag: "Donderdag", tijd: "19:30 – 21:30 (3de van de maand - Repair Café)" }
+          { dag: "Donderdag", tijd: "13:30 – 16:00 (1ste + 3de v/d maand)" },
+          { dag: "Donderdag", tijd: "19:30 – 21:30 (3de v/d maand - Repair Café)" }
         ],
         type: "Ontmoetingscentrum"
       },
@@ -149,6 +167,7 @@
         naam: "Bibliotheek De Bron Lanaken",
         gemeente: "Lanaken",
         adres: "Aan de Statie 1, 3620 Lanaken",
+        coords: [50.8905, 5.6500],
         uren: [
           { dag: "Woensdag", tijd: "14:00 – 16:00" },
           { dag: "Vrijdag", tijd: "10:00 – 12:00 & 13:00 – 15:00" }
@@ -159,8 +178,9 @@
         naam: "Babbelbus Lanaken",
         gemeente: "Lanaken",
         adres: "Wisselende wijken in Lanaken",
+        coords: [50.8920, 5.6480],
         uren: [
-          { dag: "Donderdag", tijd: "13:30 – 16:30 (2de + 4de van de maand, apr-okt)" }
+          { dag: "Donderdag", tijd: "13:30 – 16:30 (2de + 4de v/d maand, apr-okt)" }
         ],
         type: "Mobiel Digipunt"
       },
@@ -168,6 +188,7 @@
         naam: "Sociaal Huis Lanaken",
         gemeente: "Lanaken",
         adres: "Jan Rosierlaan 1, 3620 Lanaken",
+        coords: [50.8890, 5.6470],
         uren: [
           { dag: "Woensdag", tijd: "09:00 – 11:00" }
         ],
@@ -179,6 +200,7 @@
         naam: "Kringwinkel Maaseik",
         gemeente: "Maaseik",
         adres: "Pelserstraat 19, 3680 Maaseik",
+        coords: [51.0965, 5.7820],
         uren: [
           { dag: "Donderdag", tijd: "15:00 – 17:00" }
         ],
@@ -188,6 +210,7 @@
         naam: "Bibliotheek Maaseik",
         gemeente: "Maaseik",
         adres: "Bleumerstraat 68, 3680 Maaseik",
+        coords: [51.0980, 5.7850],
         uren: [
           { dag: "Woensdag", tijd: "10:00 – 12:00" }
         ],
@@ -197,6 +220,7 @@
         naam: "OCMW Maaseik",
         gemeente: "Maaseik",
         adres: "Monseigneur Koningsstraat 8, 3680 Maaseik",
+        coords: [51.0940, 5.7790],
         uren: [
           { dag: "Vrijdag", tijd: "10:00 – 12:00" }
         ],
@@ -206,6 +230,7 @@
         naam: "Dorpsrestaurants Maaseik",
         gemeente: "Maaseik",
         adres: "Wisselende locaties in Maaseik",
+        coords: [51.0950, 5.7800],
         uren: [
           { dag: "Maandag", tijd: "12:00 – 14:00 (wisselende data)" }
         ],
@@ -217,6 +242,7 @@
         naam: "LDC Stockheim",
         gemeente: "Dilsen-Stokkem",
         adres: "Stokheimerlaan 11, 3650 Dilsen-Stokkem",
+        coords: [51.0230, 5.7310],
         uren: [
           { dag: "Donderdag", tijd: "09:00 – 12:00 (niet in vakanties)" },
           { dag: "Zaterdag", tijd: "14:00 – 17:00 (1ste zaterdag v/d maand)" }
@@ -227,6 +253,7 @@
         naam: "Bibliotheek Dilsen-Stokkem",
         gemeente: "Dilsen-Stokkem",
         adres: "Rijksweg 340, 3650 Dilsen-Stokkem",
+        coords: [51.0310, 5.7200],
         uren: [
           { dag: "Maandag", tijd: "14:00 – 16:00" },
           { dag: "Woensdag", tijd: "18:30 – 20:30 (oneven weken)" }
@@ -237,6 +264,7 @@
         naam: "Kringwinkel Rotem",
         gemeente: "Dilsen-Stokkem",
         adres: "Burgemeester Henrylaan 3, 3650 Dilsen-Stokkem",
+        coords: [51.0510, 5.7120],
         uren: [
           { dag: "Dinsdag", tijd: "15:00 – 17:00" }
         ],
@@ -246,8 +274,9 @@
         naam: "De Zavel Lanklaar",
         gemeente: "Dilsen-Stokkem",
         adres: "Zavelstraat 1, 3650 Lanklaar",
+        coords: [51.0150, 5.7100],
         uren: [
-          { dag: "Dinsdag", tijd: "13:00 – 14:30 (1ste + 3de van de maand)" }
+          { dag: "Dinsdag", tijd: "13:00 – 14:30 (1ste + 3de v/d maand)" }
         ],
         type: "Lokaal Punt"
       },
@@ -255,8 +284,9 @@
         naam: "OC Elen",
         gemeente: "Dilsen-Stokkem",
         adres: "Stationsstraat 10, 3650 Elen",
+        coords: [51.0700, 5.7510],
         uren: [
-          { dag: "Maandag", tijd: "14:30 – 16:00 (3de van de maand)" }
+          { dag: "Maandag", tijd: "14:30 – 16:00 (3de v/d maand)" }
         ],
         type: "Ontmoetingscentrum"
       },
@@ -264,6 +294,7 @@
         naam: "Casa Fifoli",
         gemeente: "Dilsen-Stokkem",
         adres: "Kerkstraat 12, 3650 Dilsen-Stokkem",
+        coords: [51.0220, 5.7320],
         uren: [
           { dag: "Maandag", tijd: "13:00 – 15:00" }
         ],
@@ -275,6 +306,7 @@
         naam: "Bibliotheek Kinrooi",
         gemeente: "Kinrooi",
         adres: "Breeërsteenweg 300, 3640 Kinrooi",
+        coords: [51.1460, 5.7420],
         uren: [
           { dag: "Dinsdag", tijd: "15:30 – 18:00" }
         ],
@@ -284,6 +316,7 @@
         naam: "Dorpsrestaurants Kinrooi",
         gemeente: "Kinrooi",
         adres: "Wisselende dorpshuizen Kinrooi",
+        coords: [51.1470, 5.7400],
         uren: [
           { dag: "Donderdag", tijd: "12:30 – 14:00 (wisselende data)" }
         ],
@@ -293,6 +326,7 @@
         naam: "Dorpsrestaurants Neer-/Opoeteren",
         gemeente: "Maaseik",
         adres: "Wisselende locaties Neer-/Opoeteren",
+        coords: [51.0800, 5.6700],
         uren: [
           { dag: "Donderdag", tijd: "12:00 – 14:00 (wisselende data)" }
         ],
@@ -307,22 +341,31 @@
     const resultsContainer = document.getElementById('resultsContainer');
     const resultCount = document.getElementById('resultCount');
 
+    // 1. Initialiseer de Leaflet Kaart (gecentreerd op het Maasland)
+    const map = L.map('map').setView([50.9800, 5.7000], 11);
+
+    // OpenStreetMap tegels toevoegen
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Array om de huidige markers op de kaart bij te houden
+    let currentMarkers = [];
+
     // Render functie
     function renderPoints() {
       const searchVal = searchInput.value.toLowerCase().trim();
       const gemeenteVal = filterGemeente.value;
       const dagVal = filterDag.value;
 
+      // Filteren van de data
       const filtered = digipunten.filter(p => {
-        // Zoekfilter
         const matchSearch = p.naam.toLowerCase().includes(searchVal) || 
                             p.adres.toLowerCase().includes(searchVal) ||
                             p.gemeente.toLowerCase().includes(searchVal);
         
-        // Gemeente filter
         const matchGemeente = (gemeenteVal === 'alle') || (p.gemeente === gemeenteVal);
-
-        // Dag filter
         const matchDag = (dagVal === 'alle') || p.uren.some(u => u.dag === dagVal);
 
         return matchSearch && matchGemeente && matchDag;
@@ -331,7 +374,11 @@
       // Update teller
       resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'punt' : 'punten'} gevonden`;
 
-      // Maak container leeg
+      // 2. Oude markers verwijderen van de kaart
+      currentMarkers.forEach(marker => map.removeLayer(marker));
+      currentMarkers = [];
+
+      // Maak resultatencontainer leeg
       resultsContainer.innerHTML = '';
 
       if (filtered.length === 0) {
@@ -343,9 +390,34 @@
         return;
       }
 
-      // Render kaarten
+      // Bounds voor automatische zoom op de kaart
+      const bounds = [];
+
+      // 3. Render kaarten in de lijst en plaats markers op de kaart
       filtered.forEach(p => {
         const urenHtml = p.uren.map(u => `<li><strong>${u.dag}:</strong> ${u.tijd}</li>`).join('');
+
+        // Marker toevoegen aan de kaart
+        if (p.coords && p.coords.length === 2) {
+          const marker = L.marker(p.coords).addTo(map);
+          
+          // Pop-up inhoud op de kaart
+          const popupContent = `
+            <div style="max-width: 200px;">
+              <span class="badge bg-primary mb-1">${p.gemeente}</span>
+              <h6 class="fw-bold mb-1">${p.naam}</h6>
+              <p class="small text-muted mb-2">📍 ${p.adres}</p>
+              <ul class="list-unstyled small mb-0">
+                ${urenHtml}
+              </ul>
+            </div>
+          `;
+          marker.bindPopup(popupContent);
+          currentMarkers.push(marker);
+          bounds.push(p.coords);
+        }
+
+        // HTML kaart-element
         const card = document.createElement('div');
         card.className = 'col';
         card.innerHTML = `
@@ -366,13 +438,18 @@
             </div>
             <div class="card-footer bg-transparent border-0 pt-0 pb-3">
               <a href="https://maps.google.com/?q=${encodeURIComponent(p.naam + " " + p.adres)}" target="_blank" class="btn btn-outline-primary btn-sm w-100">
-                Route op kaart 🗺️
+                Route via Google Maps 🗺️
               </a>
             </div>
           </div>
         `;
         resultsContainer.appendChild(card);
       });
+
+      // Zorg dat de kaart automatisch inzoomt op de gefilterde markers
+      if (bounds.length > 0) {
+        map.fitBounds(bounds, { padding: [30, 30] });
+      }
     }
 
     // Event listeners
@@ -380,7 +457,7 @@
     filterGemeente.addEventListener('change', renderPoints);
     filterDag.addEventListener('change', renderPoints);
 
-    // Eerste render bij laden
+    // Eerste render bij het laden van de pagina
     renderPoints();
   </script>
 </body>
