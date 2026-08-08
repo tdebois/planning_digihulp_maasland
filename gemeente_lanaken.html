@@ -1,59 +1,162 @@
-<div class="accordion shadow-sm" id="accordionLanaken">
-  <div class="accordion-item fs-5">
-    <h2 class="accordion-header">
-      <button class="accordion-button fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStatie">
-        🏢 Aan de Statie
-      </button>
-    </h2>
-    <div id="collapseStatie" class="accordion-collapse collapse show">
-      <div class="accordion-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Digihulp Inloopmoment:</strong> 1ste en 3de donderdag van de maand (13:30 – 16:00)</li>
-          <li class="list-group-item bg-warning-subtle"><strong>🛠️ Repair Café (met Digihulp):</strong> 3de donderdag van de maand (19:30 – 21:30)</li>
-        </ul>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digipunten Lanaken - Overzicht & Kaart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    .search-section { background-color: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+    #map { height: 350px; border-radius: 12px; margin-bottom: 2rem; z-index: 1; }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">← Terug naar alle gemeenten</a></li>
+        <li class="breadcrumb-item active">Lanaken</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="display-5 fw-bold text-primary">Digipunten Lanaken</h1>
+      <p class="lead text-muted">Vind ondersteuning en inloopmomenten in de gemeente Lanaken.</p>
+    </header>
+
+    <section class="search-section shadow-sm">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label for="searchInput" class="form-label fw-bold">Zoek op locatie of adres</label>
+          <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="bv. Statie, Bibliotheek, Babbelbus...">
+        </div>
+        <div class="col-md-4">
+          <label for="filterDag" class="form-label fw-bold">Filter op dag</label>
+          <select id="filterDag" class="form-select form-select-lg">
+            <option value="alle">Alle dagen</option>
+            <option value="Woensdag">Woensdag</option>
+            <option value="Donderdag">Donderdag</option>
+            <option value="Vrijdag">Vrijdag</option>
+          </select>
+        </div>
       </div>
+    </section>
+
+    <div id="map" class="shadow-sm"></div>
+
+    <h3 class="mb-3">Locaties & Openingsuren</h3>
+    <div class="accordion shadow-sm" id="accordionLanaken">
+      
+      <div class="accordion-item fs-5 location-item" data-naam="aan de statie repair cafe" data-dagen="donderdag">
+        <h2 class="accordion-header">
+          <button class="accordion-button fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStatie">
+            🏢 Aan de Statie Lanaken
+          </button>
+        </h2>
+        <div id="collapseStatie" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            <p class="text-muted mb-2">📍 Koning Albertlaan 112, 3620 Lanaken</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item"><strong>1ste + 3de donderdag v/d maand:</strong> 13:30 – 16:00</li>
+              <li class="list-group-item bg-warning-subtle"><strong>🛠️ Repair Café (3de donderdag v/d maand):</strong> 19:30 – 21:30</li>
+            </ul>
+            <a href="https://maps.google.com/?q=Koning+Albertlaan+112+Lanaken" target="_blank" class="btn btn-outline-primary btn-sm">Google Maps 🗺️</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item fs-5 location-item" data-naam="bibliotheek de bron lanaken" data-dagen="woensdag vrijdag">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBibLanaken">
+            📚 Bibliotheek De Bron
+          </button>
+        </h2>
+        <div id="collapseBibLanaken" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <p class="text-muted mb-2">📍 Aan de Statie 1, 3620 Lanaken</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item"><strong>Woensdag:</strong> 14:00 – 16:00</li>
+              <li class="list-group-item"><strong>Vrijdag:</strong> 10:00 – 12:00 &amp; 13:00 – 15:00</li>
+            </ul>
+            <a href="https://maps.google.com/?q=Aan+de+Statie+1+Lanaken" target="_blank" class="btn btn-outline-primary btn-sm">Google Maps 🗺️</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item fs-5 location-item" data-naam="babbelbus lanaken" data-dagen="donderdag">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBabbelbus">
+            🚌 Babbelbus Lanaken
+          </button>
+        </h2>
+        <div id="collapseBabbelbus" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <p class="text-muted mb-2">📍 Wisselende buurten in Lanaken</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item"><strong>2de + 4de donderdag v/d maand:</strong> 13:30 – 16:30 <em>(april t/m oktober)</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item fs-5 location-item" data-naam="sociaal huis lanaken" data-dagen="woensdag">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSociaalHuisLanaken">
+            🏛️ Sociaal Huis Lanaken
+          </button>
+        </h2>
+        <div id="collapseSociaalHuisLanaken" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <p class="text-muted mb-2">📍 Jan Rosierlaan 1, 3620 Lanaken</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item"><strong>Woensdag:</strong> 09:00 – 11:00</li>
+            </ul>
+            <a href="https://maps.google.com/?q=Jan+Rosierlaan+1+Lanaken" target="_blank" class="btn btn-outline-primary btn-sm">Google Maps 🗺️</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="accordion-item fs-5">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBibLanaken">
-        📚 Bibliotheek De Bron
-      </button>
-    </h2>
-    <div id="collapseBibLanaken" class="accordion-collapse collapse">
-      <div class="accordion-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Woensdag:</strong> 14:00 – 16:00</li>
-          <li class="list-group-item"><strong>Vrijdag:</strong> 10:00 – 12:00 &amp; 13:00 – 15:00</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const locatiesLanaken = [
+      { naam: "Aan de Statie Lanaken", coords: [50.8911, 5.6512], adres: "Koning Albertlaan 112" },
+      { naam: "Bibliotheek De Bron", coords: [50.8905, 5.6500], adres: "Aan de Statie 1" },
+      { naam: "Babbelbus Lanaken", coords: [50.8920, 5.6480], adres: "Wisselende buurten" },
+      { naam: "Sociaal Huis Lanaken", coords: [50.8890, 5.6470], adres: "Jan Rosierlaan 1" }
+    ];
 
-  <div class="accordion-item fs-5">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBabbelbus">
-        🚌 Babbelbus Lanaken
-      </button>
-    </h2>
-    <div id="collapseBabbelbus" class="accordion-collapse collapse">
-      <div class="accordion-body">
-        <p class="mb-0"><strong>2de + 4de donderdag van de maand:</strong> 13:30 – 16:30 <em>(van april t/m oktober)</em></p>
-      </div>
-    </div>
-  </div>
+    const map = L.map('map').setView([50.8900, 5.6500], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' }).addTo(map);
 
-  <div class="accordion-item fs-5">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSociaalHuisLanaken">
-        🏛️ Sociaal Huis Lanaken
-      </button>
-    </h2>
-    <div id="collapseSociaalHuisLanaken" class="accordion-collapse collapse">
-      <div class="accordion-body">
-        <p class="mb-0"><strong>Woensdag:</strong> 09:00 – 11:00</p>
-      </div>
-    </div>
-  </div>
-</div>
+    locatiesLanaken.forEach(loc => {
+      L.marker(loc.coords).addTo(map).bindPopup(`<b>${loc.naam}</b><br>📍 ${loc.adres}`);
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    const filterDag = document.getElementById('filterDag');
+    const items = document.querySelectorAll('.location-item');
+
+    function filterAccordion() {
+      const query = searchInput.value.toLowerCase().trim();
+      const selectedDag = filterDag.value.toLowerCase();
+
+      items.forEach(item => {
+        const naam = item.getAttribute('data-naam');
+        const dagen = item.getAttribute('data-dagen');
+        const matchSearch = naam.includes(query);
+        const matchDag = (selectedDag === 'alle') || dagen.includes(selectedDag);
+        item.style.display = (matchSearch && matchDag) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterAccordion);
+    filterDag.addEventListener('change', filterAccordion);
+  </script>
+</body>
+</html>
