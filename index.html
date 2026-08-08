@@ -3,17 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digihulp Maasland - Planning & Inloopmomenten</title>
+  <title>Digihulp Maasland - Overzicht & Planning Locaties</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { transition: font-size 0.2s, background-color 0.3s, color 0.3s; }
+    
+    /* TOEGANKELIJKHEID HOOG CONTRAST */
     .high-contrast { background-color: #000000 !important; color: #ffff00 !important; }
-    .high-contrast .card, .high-contrast .accordion-item { background-color: #121212 !important; color: #ffff00 !important; border-color: #ffff00 !important; }
-    .high-contrast .btn { background-color: #ffff00 !important; color: #000000 !important; font-weight: bold; }
-    .bg-lanaken { background-color: #e7f1ff; border-left: 6px solid #0d6efd; }
-    .bg-maaseik { background-color: #e6f4ea; border-left: 6px solid #198754; }
-    .bg-maasmechelen { background-color: #fff3e0; border-left: 6px solid #fd7e14; }
-    .bg-dilsen { background-color: #f3e5f5; border-left: 6px solid #6f42c1; }
+    .high-contrast .card, 
+    .high-contrast .accordion-item, 
+    .high-contrast .form-control, 
+    .high-contrast .form-select { background-color: #121212 !important; color: #ffff00 !important; border-color: #ffff00 !important; }
+    .high-contrast .btn { background-color: #ffff00 !important; color: #000000 !important; font-weight: bold; border-color: #ffff00 !important; }
+    .high-contrast .accordion-button { background-color: #222 !important; color: #ffff00 !important; }
+    
+    /* KLEURSTRUCTUUR PER GEMEENTE */
+    .border-lanaken { border-left: 8px solid #0d6efd !important; }
+    .badge-lanaken { background-color: #0d6efd; color: #fff; }
+    
+    .border-maaseik { border-left: 8px solid #198754 !important; }
+    .badge-maaseik { background-color: #198754; color: #fff; }
+    
+    .border-maasmechelen { border-left: 8px solid #fd7e14 !important; }
+    .badge-maasmechelen { background-color: #fd7e14; color: #fff; }
+    
+    .border-dilsen { border-left: 8px solid #6f42c1 !important; }
+    .badge-dilsen { background-color: #6f42c1; color: #fff; }
+
+    .search-box { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   </style>
 </head>
 <body>
@@ -22,18 +39,20 @@
   <div class="bg-dark text-white p-2 sticky-top">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
       <span class="fw-bold me-2">♿ Toegankelijkheid:</span>
-      <div class="btn-group my-1">
+      <div class="btn-group my-1" role="group" aria-label="Tekstgrootte">
         <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(-1)" title="Tekst verkleinen">A-</button>
-        <button class="btn btn-sm btn-outline-light" onclick="resetFontSize()" title="Herkans tekstgrootte">A</button>
+        <button class="btn btn-sm btn-outline-light" onclick="resetFontSize()" title="Herstel tekstgrootte">A</button>
         <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(1)" title="Tekst vergroten">A+</button>
       </div>
-      <button class="btn btn-sm btn-warning my-1 ms-2" onclick="toggleContrast()">🌗 Hoog Contrast</button>
-      <button class="btn btn-sm btn-info text-white my-1 ms-2" onclick="readPage()">🔊 Lees Voor</button>
-      <button class="btn btn-sm btn-danger my-1 ms-1" onclick="stopSpeech()">⏹️ Stop</button>
+      <div>
+        <button class="btn btn-sm btn-warning my-1 ms-1 fw-bold" onclick="toggleContrast()">🌗 Hoog Contrast</button>
+        <button class="btn btn-sm btn-info text-white my-1 ms-1 fw-bold" onclick="readPage()">🔊 Voorlezen</button>
+        <button class="btn btn-sm btn-danger my-1 ms-1" onclick="stopSpeech()">⏹️ Stop</button>
+      </div>
     </div>
   </div>
 
-  <!-- NAVIGATIE -->
+  <!-- HOOFDNAVIGATIE -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
       <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">Digihulp Maasland</a>
@@ -52,17 +71,58 @@
     </div>
   </nav>
 
-  <!-- MAIN CONTENT -->
+  <!-- INTRODUCTIE -->
   <main class="container my-5">
-    <div class="text-center mb-5">
-      <h1 class="fw-bold display-5">Gratis Digital Hulp in Maasland</h1>
-      <p class="lead text-muted fs-4">Kies uw gemeente of bekijk het overzicht van inloopmomenten en workshops hieronder.</p>
+    <div class="text-center mb-4">
+      <h1 class="fw-bold display-5">Zoek Digihulp in jouw buurt</h1>
+      <p class="lead text-muted fs-4">Vind snel locaties, openingsuren en inloopmomenten in het Maasland.</p>
     </div>
 
-    <!-- ROTERENDE GEMEENTEN CONTAINER -->
-    <h2 class="h3 mb-4 fw-bold">📍 Overzicht per Gemeente</h2>
-    <div id="gemeentenContainer" class="row g-4">
-      <!-- Wordt via JavaScript opgesplitst en geroteerd -->
+    <!-- ZOEK & FILTER PANNEEL -->
+    <div class="card p-4 mb-5 border-0 bg-light search-box rounded-3">
+      <div class="row g-3 align-items-center">
+        <!-- VRIJE ZOEKBALK -->
+        <div class="col-lg-5 col-md-12">
+          <label for="searchInput" class="form-label fw-bold fs-5">🔍 Zoeken op trefwoord:</label>
+          <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Bijv. Statie, Bib, Donderdag, 13:00..." onkeyup="filterLocaties()">
+        </div>
+        
+        <!-- FILTER GEMEENTE -->
+        <div class="col-lg-4 col-md-6">
+          <label for="gemeenteSelect" class="form-label fw-bold fs-5">📍 Filter op Gemeente:</label>
+          <select id="gemeenteSelect" class="form-select form-select-lg" onchange="filterLocaties()">
+            <option value="alle">Alle Gemeenten</option>
+            <option value="Lanaken">Lanaken</option>
+            <option value="Maaseik">Maaseik</option>
+            <option value="Maasmechelen">Maasmechelen</option>
+            <option value="Dilsen-Stokkem">Dilsen-Stokkem</option>
+          </select>
+        </div>
+
+        <!-- FILTER DAG -->
+        <div class="col-lg-3 col-md-6">
+          <label for="dagSelect" class="form-label fw-bold fs-5">📅 Filter op Dag:</label>
+          <select id="dagSelect" class="form-select form-select-lg" onchange="filterLocaties()">
+            <option value="alle">Alle Dagen</option>
+            <option value="Maandag">Maandag</option>
+            <option value="Dinsdag">Dinsdag</option>
+            <option value="Woensdag">Woensdag</option>
+            <option value="Donderdag">Donderdag</option>
+            <option value="Vrijdag">Vrijdag</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTATEN TELLER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h3 fw-bold m-0">Inloopmomenten & Locaties</h2>
+      <span id="resultCount" class="badge bg-secondary fs-6">8 locaties gevonden</span>
+    </div>
+
+    <!-- DYNAMISCHE LIST / CONTAINER VAN LOCATIES -->
+    <div id="locatiesContainer" class="row g-4">
+      <!-- Wordt gevuld via JavaScript -->
     </div>
   </main>
 
@@ -71,12 +131,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 mb-4">
-          <h5 class="fw-bold">Over Digihulp Maasland</h5>
-          <p>Dit project is opgericht om **digitale inclusie** te bevorderen in de regio Maasland. Wij bieden ondersteuning bij digitale vragen, van smartphones tot de e-overheid, via gratis inloopmomenten en gerichte workshops.</p>
+          <h5 class="fw-bold fs-4">Over Digihulp Maasland</h5>
+          <p class="fs-5 text-muted">Dit project is opgericht om <strong>digitale inclusie</strong> te bevorderen in de regio Maasland (Lanaken, Maaseik, Maasmechelen, Dilsen-Stokkem). Wij bieden gratis ondersteuning bij al je vragen over smartphones, tablets, e-mail en online overheidsdiensten.</p>
         </div>
         <div class="col-md-6 mb-4">
-          <h5 class="fw-bold">Toegankelijkheid & Design</h5>
-          <p>Deze website is gebouwd volgens de principes van **Usability** (eenvoudige en heldere bediening) en **Responsive Design** (optimale weergave op mobiel, tablet en computer). Dankzij de ingebouwde opties voor lettergrootte, contrast en tekst-naar-spraak kunnen ook slechtzienden en minder validen de site gemakkelijk gebruiken.</p>
+          <h5 class="fw-bold fs-4">Toegankelijkheid & Usability</h5>
+          <p class="fs-5 text-muted">Deze website is ontworpen volgens de regels van <strong>Usability</strong> (eenvoudige bediening) en <strong>Responsive Design</strong> (geschikt voor mobiel, tablet en computer). Dankzij de functies voor tekstvergroting, hoog contrast en spraaksynthese (voorlezen) is het platform optimaal bruikbaar voor iedereen.</p>
         </div>
       </div>
       <div class="text-center border-top pt-3 text-muted">
@@ -87,6 +147,146 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // DATABANK VAN ALLE DIGIHULP LOCATIES
+    const locaties = [
+      {
+        gemeente: "Lanaken",
+        naam: "Aan de Statie",
+        badgeKlasse: "badge-lanaken",
+        borderKlasse: "border-lanaken",
+        dag: "Donderdag",
+        uren: "1e & 3e donderdag van de maand",
+        extraInfo: "🛠️ Repair Café met Digihulp: 3e donderdag van de maand (19:30 - 21:30)",
+        link: "gemeente_lanaken.html"
+      },
+      {
+        gemeente: "Lanaken",
+        naam: "Bibliotheek Lanaken",
+        badgeKlasse: "badge-lanaken",
+        borderKlasse: "border-lanaken",
+        dag: "Woensdag / Vrijdag",
+        uren: "Woensdag: 14:00 - 16:00 | Vrijdag: 10:00 - 12:00 & 13:00 - 15:00",
+        extraInfo: "Wekelijks inloopmoment bij de bibliotheek.",
+        link: "gemeente_lanaken.html"
+      },
+      {
+        gemeente: "Maaseik",
+        naam: "Kringwinkel Maaseik",
+        badgeKlasse: "badge-maaseik",
+        borderKlasse: "border-maaseik",
+        dag: "Donderdag",
+        uren: "Elke donderdag van 13:00 tot 16:00",
+        extraInfo: "Gratis hulp bij digitale vragen in de Kringwinkel.",
+        link: "gemeente_maaseik.html"
+      },
+      {
+        gemeente: "Maasmechelen",
+        naam: "SOMA Maasmechelen",
+        badgeKlasse: "badge-maasmechelen",
+        borderKlasse: "border-maasmechelen",
+        dag: "Dinsdag",
+        uren: "Elke dinsdag van 10:30 tot 12:30",
+        extraInfo: "Gratis inloopmoment Digihulp bij SOMA.",
+        link: "gemeente_mm.html"
+      },
+      {
+        gemeente: "Dilsen-Stokkem",
+        naam: "Bibliotheek De Faar",
+        badgeKlasse: "badge-dilsen",
+        borderKlasse: "border-dilsen",
+        dag: "Maandag / Woensdag",
+        uren: "Maandag: 14:00 - 16:00 | Woensdag (oneven weken): 18:30 - 20:30",
+        extraInfo: "Avondinloop beschikbaar op woensdagavond.",
+        link: "gemeente_dilsen.html"
+      },
+      {
+        gemeente: "Dilsen-Stokkem",
+        naam: "Kringwinkel Rotem",
+        badgeKlasse: "badge-dilsen",
+        borderKlasse: "border-dilsen",
+        dag: "Dinsdag",
+        uren: "Elke dinsdag van 15:00 tot 17:00",
+        extraInfo: "Inloopmoment bij Kringwinkel Rotem.",
+        link: "gemeente_dilsen.html"
+      },
+      {
+        gemeente: "Dilsen-Stokkem",
+        naam: "LDC Stockheim",
+        badgeKlasse: "badge-dilsen",
+        borderKlasse: "border-dilsen",
+        dag: "Donderdag",
+        uren: "Elke donderdag van 09:00 tot 12:00",
+        extraInfo: "Ook geopend op zaterdag tijdens het Repair Café.",
+        link: "gemeente_dilsen.html"
+      }
+    ];
+
+    // RENDER FUNCTIE
+    function renderLocaties(lijst) {
+      const container = document.getElementById("locatiesContainer");
+      const countLabel = document.getElementById("resultCount");
+      container.innerHTML = "";
+      
+      countLabel.textContent = `${lijst.length} locatie(s) gevonden`;
+
+      if (lijst.length === 0) {
+        container.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <p class="fs-4 text-muted">Geen locaties gevonden voor deze zoekopdracht.</p>
+            <button class="btn btn-primary btn-lg" onclick="resetFilters()">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      lijst.forEach(loc => {
+        container.innerHTML += `
+          <div class="col-md-6 col-lg-6">
+            <div class="card h-100 shadow-sm p-3 ${loc.borderKlasse}">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge fs-6 ${loc.badgeKlasse}">${loc.gemeente}</span>
+                  <span class="text-muted fw-bold">📅 ${loc.dag}</span>
+                </div>
+                <h3 class="card-title fw-bold fs-4">${loc.naam}</h3>
+                <p class="card-text fs-5 text-dark mt-2 mb-1">⏰ <strong>${loc.uren}</strong></p>
+                <p class="text-secondary fs-6 flex-grow-1">${loc.extraInfo}</p>
+                <a href="${loc.link}" class="btn btn-outline-primary btn-lg w-100 fw-bold mt-3">Bekijk Gemeente Pagina &rarr;</a>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // FILTER LOGICA
+    function filterLocaties() {
+      const zoekTerm = document.getElementById("searchInput").value.toLowerCase();
+      const gekozenGemeente = document.getElementById("gemeenteSelect").value;
+      const gekozenDag = document.getElementById("dagSelect").value;
+
+      const gefilterd = locaties.filter(loc => {
+        const matchZoek = loc.naam.toLowerCase().includes(zoekTerm) || 
+                          loc.gemeente.toLowerCase().includes(zoekTerm) || 
+                          loc.uren.toLowerCase().includes(zoekTerm) ||
+                          loc.extraInfo.toLowerCase().includes(zoekTerm);
+                          
+        const matchGemeente = (gekozenGemeente === "alle") || (loc.gemeente === gekozenGemeente);
+        const matchDag = (gekozenDag === "alle") || loc.dag.includes(gekozenDag);
+
+        return matchZoek && matchGemeente && matchDag;
+      });
+
+      renderLocaties(gefilterd);
+    }
+
+    function resetFilters() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("gemeenteSelect").value = "alle";
+      document.getElementById("dagSelect").value = "alle";
+      renderLocaties(locaties);
+    }
+
     // TOEGANKELIJKHEID SCRIPTS
     let fontZoom = 100;
     function changeFontSize(step) {
@@ -103,7 +303,7 @@
       document.body.classList.toggle("high-contrast");
     }
 
-    // TEXT TO SPEECH
+    // VOORLEESFUNCTIE
     function readPage() {
       stopSpeech();
       const text = document.querySelector("main").innerText;
@@ -115,53 +315,8 @@
       window.speechSynthesis.cancel();
     }
 
-    // ROTERENDE GEMEENTEN OP INDEX
-    const gemeenten = [
-      {
-        naam: "Lanaken",
-        klasse: "bg-lanaken",
-        link: "gemeente_lanaken.html",
-        info: "Aan de Statie (1e/3e do) & Repair Café (3e do 19:30-21:30) | Bib Lanaken (Wo & Vr)"
-      },
-      {
-        naam: "Maaseik",
-        klasse: "bg-maaseik",
-        link: "gemeente_maaseik.html",
-        info: "Kringwinkel Maaseik: Elke donderdag van 13:00 tot 16:00"
-      },
-      {
-        naam: "Maasmechelen",
-        klasse: "bg-maasmechelen",
-        link: "gemeente_mm.html",
-        info: "SOMA: Elke dinsdag van 10:30 tot 12:30"
-      },
-      {
-        naam: "Dilsen-Stokkem",
-        klasse: "bg-dilsen",
-        link: "gemeente_dilsen.html",
-        info: "Bekijk de specifieke inloopuren en locatiegegevens voor Dilsen-Stokkem."
-      }
-    ];
-
-    function renderGemeenten() {
-      // Willekeurige of roterende volgorde
-      const shuffled = [...gemeenten].sort(() => Math.random() - 0.5);
-      const container = document.getElementById("gemeentenContainer");
-      container.innerHTML = "";
-      shuffled.forEach(g => {
-        container.innerHTML += `
-          <div class="col-md-6">
-            <div class="card h-100 p-4 shadow-sm ${g.klasse}">
-              <h3 class="fw-bold mb-2">📍 ${g.naam}</h3>
-              <p class="fs-5 flex-grow-1">${g.info}</p>
-              <a href="${g.link}" class="btn btn-primary btn-lg mt-3 w-100 fw-bold">Bekijk details ${g.naam} &rarr;</a>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", renderGemeenten);
+    // INITIALISATIE
+    document.addEventListener("DOMContentLoaded", () => renderLocaties(locaties));
   </script>
 </body>
 </html>
