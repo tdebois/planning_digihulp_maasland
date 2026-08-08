@@ -1,83 +1,85 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digihulp Dilsen-Stokkem - Planning</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { transition: font-size 0.2s, background-color 0.3s; }
-    .high-contrast { background-color: #000 !important; color: #ffff00 !important; }
-    .bg-dilsen-header { background-color: #f3e5f5; border-bottom: 4px solid #6f42c1; }
-  </style>
-</head>
-<body>
-
-  <!-- TOEGANKELIJKHEIDSTOOLBAR -->
-  <div class="bg-dark text-white p-2 sticky-top">
-    <div class="container d-flex flex-wrap justify-content-between align-items-center">
-      <span class="fw-bold me-2">♿ Toegankelijkheid:</span>
-      <div class="btn-group my-1">
-        <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(-1)">A-</button>
-        <button class="btn btn-sm btn-outline-light" onclick="resetFontSize()">A</button>
-        <button class="btn btn-sm btn-outline-light" onclick="changeFontSize(1)">A+</button>
-      </div>
-      <button class="btn btn-sm btn-warning my-1 ms-2" onclick="toggleContrast()">🌗 Hoog Contrast</button>
-      <button class="btn btn-sm btn-info text-white my-1 ms-2" onclick="readPage()">🔊 Lees Voor</button>
-      <button class="btn btn-sm btn-danger my-1 ms-1" onclick="stopSpeech()">⏹️ Stop</button>
-    </div>
-  </div>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container">
-      <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">Digihulp Maasland</a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto fs-5">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="gemeente_lanaken.html">Lanaken</a></li>
-          <li class="nav-item"><a class="nav-link" href="gemeente_maaseik.html">Maaseik</a></li>
-          <li class="nav-item"><a class="nav-link" href="gemeente_mm.html">Maasmechelen</a></li>
-          <li class="nav-item"><a class="nav-link active fw-bold" href="gemeente_dilsen.html">Dilsen-Stokkem</a></li>
+<div class="accordion shadow-sm" id="accordionDilsen">
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStockheim">
+        🏢 LDC Stockheim Dilsen-Stokkem
+      </button>
+    </h2>
+    <div id="collapseStockheim" class="accordion-collapse collapse show">
+      <div class="accordion-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Donderdag:</strong> 09:00 – 12:00 <em>(niet tijdens vakanties)</em></li>
+          <li class="list-group-item"><strong>Zaterdag:</strong> 1ste zaterdag v/d maand (14:00 – 17:00)</li>
         </ul>
       </div>
     </div>
-  </nav>
+  </div>
 
-  <header class="bg-dilsen-header py-4 mb-4">
-    <div class="container">
-      <h1 class="fw-bold display-6">📍 Digihulp Dilsen-Stokkem</h1>
-    </div>
-  </header>
-
-  <main class="container my-4">
-    <div class="accordion shadow-sm" id="accordionDilsen">
-      <div class="accordion-item fs-5">
-        <h2 class="accordion-header">
-          <button class="accordion-button fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDilsenLoc">
-            🏛️ Sociaal Huis Dilsen-Stokkem
-          </button>
-        </h2>
-        <div id="collapseDilsenLoc" class="accordion-collapse collapse show">
-          <div class="accordion-body">
-            <p class="mb-0"><strong>Inloopmoment:</strong> Raadpleeg de gemeentelijke kalender voor specifieke data en tijden.</p>
-          </div>
-        </div>
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBibDilsen">
+        📚 Bibliotheek Dilsen-Stokkem
+      </button>
+    </h2>
+    <div id="collapseBibDilsen" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Maandag:</strong> 14:00 – 16:00</li>
+          <li class="list-group-item"><strong>Woensdag (oneven weken):</strong> 18:30 – 20:30</li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div class="mt-4">
-      <a href="index.html" class="btn btn-outline-secondary btn-lg">&larr; Terug naar Hoofdpagina</a>
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRotem">
+        🛍️ Kringwinkel Rotem
+      </button>
+    </h2>
+    <div id="collapseRotem" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        <p class="mb-0"><strong>Dinsdag:</strong> 15:00 – 17:00</p>
+      </div>
     </div>
-  </main>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    let fontZoom = 100;
-    function changeFontSize(s){ fontZoom += s*10; document.body.style.fontSize = fontZoom + "%"; }
-    function resetFontSize(){ fontZoom = 100; document.body.style.fontSize = "100%"; }
-    function toggleContrast(){ document.body.classList.toggle("high-contrast"); }
-    function readPage(){ window.speechSynthesis.speak(new SpeechSynthesisUtterance(document.querySelector("main").innerText)); }
-    function stopSpeech(){ window.speechSynthesis.cancel(); }
-  </script>
-</body>
-</html>
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLanklaar">
+        🏡 De Zavel Lanklaar
+      </button>
+    </h2>
+    <div id="collapseLanklaar" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        <p class="mb-0"><strong>Dinsdag (1ste + 3de v/d maand):</strong> 13:00 – 14:30</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseElen">
+        🏛️ OC Elen
+      </button>
+    </h2>
+    <div id="collapseElen" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        <p class="mb-0"><strong>Maandag (3de v/d maand):</strong> 14:30 – 16:00</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item fs-5">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifoli">
+        ☕ Casa Fifoli
+      </button>
+    </h2>
+    <div id="collapseFifoli" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        <p class="mb-0"><strong>Maandag:</strong> 13:00 – 15:00</p>
+      </div>
+    </div>
+  </div>
+</div>
