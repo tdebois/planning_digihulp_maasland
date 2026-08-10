@@ -1,0 +1,114 @@
+/* Visuele uitbreiding op de bestaande snelle website. */
+body { background: #f5f8f6; }
+
+header {
+  padding-block: 11px;
+  box-shadow: 0 4px 18px #17372f10;
+}
+
+.brand .logo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 0 3px #e3f5ed;
+}
+
+.brand-copy { display: grid; line-height: 1.05; }
+.brand-copy small { margin-top: 4px; color: #087b61; font-size: .66em; font-weight: 700; }
+
+.hero {
+  min-height: 540px;
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 1.06fr) minmax(340px, .94fr);
+  background:
+    radial-gradient(circle at 88% 22%, #bce9d9 0 9%, transparent 9.3%),
+    linear-gradient(128deg, #faf8f1 0 58%, #dff3ea 58%);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  bottom: -165px;
+  width: 420px;
+  height: 420px;
+  border: 55px solid #087b6112;
+  border-radius: 50%;
+}
+
+.hero > div { position: relative; z-index: 1; }
+.hero .visual {
+  display: grid !important;
+  place-items: center;
+  min-height: 365px;
+  padding: 30px;
+  border: 1px solid #cfe3da;
+  border-radius: 34px;
+  background: #ffffffee;
+  box-shadow: 0 24px 60px #164c3823;
+  transform: rotate(1.5deg);
+}
+.hero .visual img { display: block; width: 100%; max-height: 330px; object-fit: contain; }
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  padding: 0 7%;
+  background: #087b61;
+}
+.benefit { display: flex; align-items: center; gap: 14px; padding: 22px; background: #0a715b; color: white; }
+.benefit:nth-child(2) { background: #096950; }
+.benefit-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 auto; border-radius: 50%; background: #ffffff20; font-size: 1.25em; }
+.benefit b { display: block; }
+.benefit span:last-child { font-size: .85em; opacity: .85; }
+
+.finder { position: relative; padding-top: 72px; }
+.filters { padding: 22px; border: 1px solid #d5dfda; border-radius: 15px; background: #f8fbf9; box-shadow: 0 10px 30px #17372f0c; }
+.filters input,.filters select { border-width: 2px; }
+.chips button { transition: transform .15s, background .15s; }
+.chips button:hover { transform: translateY(-2px); }
+
+.cards { padding-top: 14px; padding-bottom: 82px; }
+.card { position: relative; overflow: hidden; min-height: 380px; border-radius: 16px; box-shadow: 0 9px 25px #183b2e12; transition: transform .18s, box-shadow .18s; }
+.card::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: linear-gradient(90deg,#087b61,#1695ba,#73bc35); }
+.card:hover { transform: translateY(-5px); box-shadow: 0 18px 38px #183b2e20; }
+.town { display: inline-flex; align-self: flex-start; padding: 5px 9px; border-radius: 99px; background: #e3f5ed; }
+.route { border-top: 0; border-radius: 8px; padding: 11px 13px; background: #e3f5ed; }
+.route:hover { background: #087b61; color: white; }
+
+.map { margin: 0; background: linear-gradient(115deg,#dff5eb,#dcedf6); }
+.days details { box-shadow: 0 5px 14px #17372f0a; }
+.days details[open] { border-color: #7bb7a4; }
+.days summary { list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.days summary::after { content: "+"; color: #087b61; font: 700 1.5em Arial; }
+.days details[open] summary::after { content: "−"; }
+
+.info article { border-left: 0; border-top: 6px solid #f29a45; border-radius: 12px; }
+footer .footer-brand { display: flex; align-items: center; gap: 12px; }
+footer .footer-brand img { width: 55px; height: 55px; border-radius: 50%; background: white; }
+
+.contrast .benefits,.contrast .benefit { background: #000; border: 1px solid white; }
+.contrast .filters,.contrast .town,.contrast .route { background: #000; color: white; border-color: white; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero .visual { min-height: 280px; transform: none; }
+  .benefits { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (max-width: 600px) {
+  header { gap: 12px; }
+  .brand { white-space: normal; }
+  .brand .logo { width: 44px; height: 44px; }
+  .hero { padding-top: 42px; padding-bottom: 42px; }
+  .hero .visual { display: grid !important; min-height: 215px; padding: 14px; margin-top: 15px; }
+  .benefits { padding-inline: 18px; }
+  .benefit { padding: 16px; }
+  .filters { padding: 15px; }
+  .card { min-height: 0; }
+  footer .footer-brand img { width: 46px; height: 46px; }
+}
